@@ -1,3 +1,4 @@
+#Importing Files and Packages
 from datetime import datetime, timedelta
 
 import requests
@@ -5,24 +6,28 @@ import requests
 from twilio.rest import Client
 from dateutil.parser import parse
 
+#COVID API
 def get_country_confirmed_infected(country, start_date, end_date):
     resp = requests.get(f"https://api.covid19api.com/country/{country}/status/confirmed", params={"from": start_date, "to": end_date})
     return resp.json()
 
+#Array to store all the numbers to which update would be sent
+numbers_to_message=['whatsapp:<insert_number_with_country_code','whatsapp:<insert_number_with_country_code>']
 
-numbers_to_message=['whatsapp:+918005060991','whatsapp:+91933588990']
-
-
+#Sending Whatsapp messages using Twilio
 def send_whatsapp_message(msg):
-    account_sid = 'AC7cbca01ceddfa8bcdaf1bd8b8d190379'
-    auth_token = 'f1cbf86b2a543275ffbeeb87ace6e3bf'
+    account_sid = '<account_SID>'
+    auth_token = '<account_auth_token>'
+    
+    #For loop to iterate through all numbers
     for number in numbers_to_message:
     	Client(account_sid, auth_token).messages.create(
         from_='whatsapp:+14155238886',
-        to='number',
+        to= number,
         body=msg
     )
 
+#main() function
 def main():
     country = "India"
     today = datetime.now().date()
