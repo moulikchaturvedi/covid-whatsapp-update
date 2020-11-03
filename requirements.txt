@@ -1,3 +1,0 @@
-requests
-twilio
-python-dateutil
